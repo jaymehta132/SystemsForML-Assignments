@@ -1,0 +1,18 @@
+Running time ./A1 1024
+Completed
+-----------------------------
+Running time ./A1 2048
+Timed out after 10 seconds
+-----------------------------
+Running time ./A1 4096
+Timed out after 10 seconds
+-----------------------------
+Running time ./A1 8192
+Timed out after 10 seconds
+-----------------------------
+Running time ./A1 16384
+Timed out after 10 seconds
+-----------------------------
+Running time ./A1 32768
+Timed out after 10 seconds
+-----------------------------
