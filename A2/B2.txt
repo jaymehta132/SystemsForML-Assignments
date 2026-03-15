@@ -1,21 +1,21 @@
 N=1024
-Kernel Execution Time: 9.49658 ms
+Kernel Execution Time: 8.90368 ms
 status: completed
 -----------------------------
 N=2048
-Kernel Execution Time: 41.267 ms
+Kernel Execution Time: 32.13 ms
 status: completed
 -----------------------------
 N=4096
-Kernel Execution Time: 287.519 ms
+Kernel Execution Time: 200.445 ms
 status: completed
 -----------------------------
 N=8192
-Kernel Execution Time: 2031.09 ms
+Kernel Execution Time: 1407.55 ms
 status: completed
 -----------------------------
 N=16384
-Kernel Execution Time: 17067.4 ms
+Kernel Execution Time: 11451.8 ms
 status: completed
 -----------------------------
 N=32768

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cuda_runtime.h>
 
-// using namespace std;
+using namespace std;
 
 #define TILE_WIDTH 32
 
@@ -86,11 +86,26 @@ int main(int argc, char** argv){
     dim3 threads(32, 32);
     dim3 blocks((N + threads.x - 1)/threads.x, (N + threads.y - 1)/threads.y);
 
-    matmul_tiled_single<<<blocks, threads>>>(dA, dB, dC, N);
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    cudaEventRecord(start, stream);
+    matmul_tiled_single<<<blocks, threads, 0, stream>>>(dA, dB, dC, N);
+    cudaEventRecord(stop, stream);
+    cudaStreamSynchronize(stream);
+
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
     CUDA_CHECK(cudaMemcpy(C, dC, size, cudaMemcpyDeviceToHost));
+
+    float time;
+    cudaEventElapsedTime(&time, start, stop);
+    cout<<"Kernel Execution Time: "<<time<<" ms"<<endl;
 
     cudaFree(dA);
     cudaFree(dB);

@@ -10,8 +10,9 @@ for N in "${sizes[@]}"
 do
     echo "N=$N" >> "$outfile"
 
-    timeout 600s /usr/bin/time -f "time: real=%E user=%U sys=%S" "./$prog" "$N" \
-        1>/dev/null 2>>"$outfile"
+    # timeout 600s /usr/bin/time -f "time: real=%E user=%U sys=%S" "./$prog" "$N" \
+    #     1>/dev/null 2>>"$outfile"
+    timeout 600s "./$prog" "$N" 1>>"$outfile"
 
     status=$?
 
