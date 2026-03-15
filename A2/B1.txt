@@ -1,0 +1,28 @@
+N=1024
+time: real=0:00.80 user=0.05 sys=0.11
+status: completed
+-----------------------------
+N=2048
+time: real=0:00.37 user=0.07 sys=0.08
+status: completed
+-----------------------------
+N=4096
+time: real=0:01.02 user=0.42 sys=0.16
+status: completed
+-----------------------------
+N=8192
+time: real=0:03.94 user=2.66 sys=0.59
+status: completed
+-----------------------------
+N=16384
+time: real=0:21.31 user=19.78 sys=2.09
+status: completed
+-----------------------------
+N=32768
+CUDA Runtime Error: B1.cu:76:2 = out of memory
+CUDA Runtime Error: B1.cu:90:2 = out of memory
+CUDA Runtime Error: B1.cu:91:700 = an illegal memory access was encountered
+CUDA Runtime Error: B1.cu:93:700 = an illegal memory access was encountered
+time: real=3:34.02 user=10.49 sys=39.20
+status: completed
+-----------------------------

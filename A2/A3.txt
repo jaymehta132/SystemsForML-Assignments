@@ -1,24 +1,24 @@
 N=1024
-time: real=0:00.57 user=0.08 sys=0.14
+time: real=0:00.71 user=0.05 sys=0.17
 status: completed
 -----------------------------
 N=2048
-time: real=0:00.59 user=0.36 sys=0.08
+time: real=0:00.64 user=0.08 sys=0.13
 status: completed
 -----------------------------
 N=4096
-time: real=0:02.69 user=2.34 sys=0.16
+time: real=0:01.19 user=0.60 sys=0.19
 status: completed
 -----------------------------
 N=8192
-time: real=0:19.22 user=18.54 sys=0.46
+time: real=0:05.75 user=4.21 sys=0.71
 status: completed
 -----------------------------
 N=16384
-time: real=2:30.67 user=148.80 sys=1.65
+time: real=0:32.41 user=30.10 sys=1.82
 status: completed
 -----------------------------
 N=32768
-time: real=2:24.39 user=8.37 sys=24.02
+time: real=2:32.52 user=11.67 sys=23.96
 status: completed
 -----------------------------
