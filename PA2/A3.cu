@@ -1,7 +1,22 @@
 #include <iostream>
 #include <cuda_runtime.h>
 
-__global__ void matmul_gpu_naive(float* A, float* B, float* C, int N) {
+using namespace std;
+
+#define CUDA_CHECK(expr_to_check) do {            \
+    cudaError_t result  = expr_to_check;          \
+    if(result != cudaSuccess)                     \
+    {                                             \
+        fprintf(stderr,                           \
+                "CUDA Runtime Error: %s:%i:%d = %s\n", \
+                __FILE__,                         \
+                __LINE__,                         \
+                result,\
+                cudaGetErrorString(result));      \
+    }                                             \
+} while(0)
+
+__global__ void matmul_gpu_coalesced(float* A, float* B, float* C, int N) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -19,7 +34,7 @@ int main(int argc, char** argv) {
 
     size_t size = N*N*sizeof(float);
     float *A, *B, *C;
-    float *d_A, *d_B, *d_C;
+    float *dA, *dB, *dC;
     A = (float*)malloc(size);
     B = (float*)malloc(size);
     C = (float*)malloc(size);
@@ -29,23 +44,41 @@ int main(int argc, char** argv) {
         B[i] = 1.0f; 
     }
 
-    cudaMalloc(&d_A, size);
-    cudaMalloc(&d_B, size);
-    cudaMalloc(&d_C, size);
+    CUDA_CHECK(cudaMalloc(&dA, size));
+    CUDA_CHECK(cudaMalloc(&dB, size));
+    CUDA_CHECK(cudaMalloc(&dC, size));
 
-    cudaMemcpy(d_A, A, size, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, B, size, cudaMemcpyHostToDevice);
+    CUDA_CHECK(cudaMemcpy(dA, A, size, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(dB, B, size, cudaMemcpyHostToDevice));
+
+    cudaStream_t stream;
+    cudaStreamCreate(&stream);
+
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
 
     dim3 threads(32, 32);
     dim3 blocks((N + threads.x - 1) / threads.x, (N + threads.y - 1) / threads.y);
 
-    matmul_gpu_naive<<<blocks, threads>>>(d_A, d_B, d_C, N);
+    cudaEventRecord(start, stream);
+    matmul_gpu_coalesced<<<blocks, threads, 0, stream>>>(dA, dB, dC, N);
+    cudaEventRecord(stop, stream);
+    cudaStreamSynchronize(stream);
 
-    cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaDeviceSynchronize());
 
-    cudaFree(d_A);
-    cudaFree(d_B);
-    cudaFree(d_C);
+    CUDA_CHECK(cudaMemcpy(C, dC, size, cudaMemcpyDeviceToHost));
+
+    float time;
+    cudaEventElapsedTime(&time, start, stop);
+    cout<<"Kernel Execution Time: "<<time<<" ms"<<endl;
+
+    cudaFree(dA);
+    cudaFree(dB);
+    cudaFree(dC);
+
 
     free(A);
     free(B);

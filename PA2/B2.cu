@@ -34,8 +34,8 @@ __global__ void matmul_tiled_rowbased(float* A, float* B, float* C, int N){
 
     float sums[STRIDE] = {0.0f};
     for (int tile = 0; tile < (N + TILE_DIM - 1)/(TILE_DIM); tile++){
-        int aCol = tile * TILE_DIM + ty;
-        int bRow = tile * TILE_DIM + tx;
+        int aCol = tile * TILE_DIM + tx;
+        int bRow = tile * TILE_DIM + ty;
         sA[ty][tx] = A[row * N + aCol];
 
         for (int e = 0; e < STRIDE; e++){

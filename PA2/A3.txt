@@ -1,24 +1,23 @@
 N=1024
-time: real=0:00.71 user=0.05 sys=0.17
+Kernel Execution Time: 323.028 ms
 status: completed
 -----------------------------
 N=2048
-time: real=0:00.64 user=0.08 sys=0.13
+Kernel Execution Time: 51.7007 ms
 status: completed
 -----------------------------
 N=4096
-time: real=0:01.19 user=0.60 sys=0.19
+Kernel Execution Time: 361.014 ms
 status: completed
 -----------------------------
 N=8192
-time: real=0:05.75 user=4.21 sys=0.71
+Kernel Execution Time: 2670.42 ms
 status: completed
 -----------------------------
 N=16384
-time: real=0:32.41 user=30.10 sys=1.82
+Kernel Execution Time: 21941.2 ms
 status: completed
 -----------------------------
 N=32768
-time: real=2:32.52 user=11.67 sys=23.96
-status: completed
+status: error (137)
 -----------------------------
